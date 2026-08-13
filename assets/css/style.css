@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: #0A0A0A; /* Fundo super escuro (App Premium) */
+    color: #ffffff;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Scrollbar invisível */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
