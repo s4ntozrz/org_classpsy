@@ -1,4 +1,4 @@
-import { db, collection, getDocs } from './firebase.js';
+import { db, collection, getDocs, query, where } from './firebase.js';
 
 if (!localStorage.getItem('alunoLogado')) window.location.href = "index.html";
 
@@ -317,3 +317,39 @@ async function carregarContatos() {
 // Chamar as funções quando o App abrir
 carregarHorarios();
 carregarContatos();
+
+// ==========================================
+// MÓDULO: PERSONALIZAÇÃO (NOME DO ALUNO)
+// ==========================================
+async function carregarNomeAluno() {
+    const matricula = localStorage.getItem('alunoLogado');
+    const displayNome = document.getElementById('nome-aluno-display');
+    
+    if (!matricula) return;
+
+    try {
+        // Vai no banco de dados procurar quem tem essa matrícula
+        const q = query(collection(db, "alunos"), where("matricula", "==", matricula));
+        const snap = await getDocs(q);
+        
+        if (!snap.empty) {
+            const alunoDoc = snap.docs[0].data();
+            
+            // Pega só o primeiro e segundo nome para não quebrar o layout se for um nome gigante
+            const nomeCompleto = alunoDoc.nome.split(' ');
+            const primeiroNome = nomeCompleto[0];
+            
+            // Troca o texto na tela
+            displayNome.textContent = primeiroNome;
+        } else {
+            // Se por algum motivo não achar, deixa genérico
+            displayNome.textContent = "Estudante";
+        }
+    } catch (error) {
+        console.error("Erro ao buscar nome:", error);
+        displayNome.textContent = "Estudante";
+    }
+}
+
+// Executa a função assim que o app abre
+carregarNomeAluno();
