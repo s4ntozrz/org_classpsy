@@ -238,3 +238,125 @@ document.getElementById('btn-importar-csv').addEventListener('click', () => {
     // Manda o leitor ler o arquivo como texto
     reader.readAsText(file);
 });
+
+// ==========================================
+// MÓDULO: ROTINA (HORÁRIOS E CONTATOS)
+// ==========================================
+
+// --- 1. GERENCIAR HORÁRIOS ---
+async function carregarAdminHorarios() {
+    const lista = document.getElementById('lista-admin-horarios');
+    try {
+        const snap = await getDocs(collection(db, "horarios"));
+        if (snap.empty) return lista.innerHTML = '<p class="text-zinc-500 text-sm text-center">Nenhuma aula na grade.</p>';
+        lista.innerHTML = '';
+        
+        let horariosList = [];
+        snap.forEach(doc => horariosList.push({ id: doc.id, ...doc.data() }));
+        horariosList.sort((a, b) => a.dia.localeCompare(b.dia));
+
+        horariosList.forEach(aula => {
+            const nomeDoDia = aula.dia.split('-')[1]; // Exibe bonito sem o número
+            const card = document.createElement('div');
+            card.className = "bg-white/[0.02] p-3 rounded-2xl border border-white/5 flex justify-between items-center";
+            card.innerHTML = `
+                <div>
+                    <h4 class="font-bold text-white text-sm">${aula.materia} <span class="text-xs text-zinc-500 font-normal ml-1">(${nomeDoDia})</span></h4>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Hora: <span class="text-[#D4FF00]">${aula.hora}</span> | Prof: ${aula.prof}</p>
+                </div>
+                <button onclick="window.deletarHorario('${aula.id}', '${aula.materia}')" class="w-10 h-10 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0">
+                    🗑️
+                </button>
+            `;
+            lista.appendChild(card);
+        });
+    } catch (e) { lista.innerHTML = '<p class="text-red-500 text-center text-sm">Erro ao carregar grade.</p>'; }
+}
+
+window.deletarHorario = async (id, materia) => {
+    if(confirm(`Remover a aula de ${materia} da grade?`)) {
+        try {
+            await deleteDoc(doc(db, "horarios", id));
+            carregarAdminHorarios();
+        } catch(e) { alert("Erro ao excluir."); }
+    }
+}
+
+const formHorario = document.getElementById('form-horario');
+if(formHorario) {
+    formHorario.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const dia = document.getElementById('dia-horario').value; 
+        const materia = document.getElementById('materia-horario').value;
+        const hora = document.getElementById('hora-horario').value;
+        const prof = document.getElementById('prof-horario').value;
+        
+        btn.textContent = "Salvando..."; btn.disabled = true;
+        try {
+            await addDoc(collection(db, "horarios"), { dia, materia, hora, prof, criadoEm: serverTimestamp() });
+            e.target.reset();
+            carregarAdminHorarios(); // Atualiza a lista na hora!
+        } catch (error) { alert("Erro ao salvar."); } finally { btn.textContent = "Adicionar na Grade"; btn.disabled = false; }
+    });
+}
+
+// --- 2. GERENCIAR CONTATOS ---
+async function carregarAdminContatos() {
+    const lista = document.getElementById('lista-admin-contatos');
+    try {
+        const snap = await getDocs(collection(db, "contatos"));
+        if (snap.empty) return lista.innerHTML = '<p class="text-zinc-500 text-sm text-center">Nenhum contato salvo.</p>';
+        lista.innerHTML = '';
+        
+        let contatosList = [];
+        snap.forEach(doc => contatosList.push({ id: doc.id, ...doc.data() }));
+        contatosList.sort((a, b) => a.nome.localeCompare(b.nome));
+
+        contatosList.forEach(contato => {
+            const card = document.createElement('div');
+            card.className = "bg-white/[0.02] p-3 rounded-2xl border border-white/5 flex justify-between items-center";
+            card.innerHTML = `
+                <div>
+                    <h4 class="font-bold text-white text-sm">${contato.nome}</h4>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Cargo: <span class="text-indigo-400">${contato.cargo}</span></p>
+                </div>
+                <button onclick="window.deletarContato('${contato.id}', '${contato.nome}')" class="w-10 h-10 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0">
+                    🗑️
+                </button>
+            `;
+            lista.appendChild(card);
+        });
+    } catch (e) { lista.innerHTML = '<p class="text-red-500 text-center text-sm">Erro ao carregar contatos.</p>'; }
+}
+
+window.deletarContato = async (id, nome) => {
+    if(confirm(`Apagar o contato de ${nome}?`)) {
+        try {
+            await deleteDoc(doc(db, "contatos", id));
+            carregarAdminContatos();
+        } catch(e) { alert("Erro ao excluir."); }
+    }
+}
+
+const formContato = document.getElementById('form-contato');
+if(formContato) {
+    formContato.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const nome = document.getElementById('nome-contato').value;
+        const cargo = document.getElementById('cargo-contato').value;
+        const numero = document.getElementById('numero-contato').value; 
+        
+        btn.textContent = "Salvando..."; btn.disabled = true;
+        try {
+            await addDoc(collection(db, "contatos"), { nome, cargo, numero, criadoEm: serverTimestamp() });
+            e.target.reset();
+            carregarAdminContatos(); // Atualiza a lista na hora!
+        } catch (error) { alert("Erro ao salvar."); } finally { btn.textContent = "Salvar Contato"; btn.disabled = false; }
+    });
+}
+
+// Inicia as listas assim que abrir a página
+carregarAdminHorarios();
+carregarAdminContatos();

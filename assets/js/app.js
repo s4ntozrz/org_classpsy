@@ -230,3 +230,90 @@ async function carregarMateriais() {
 carregarAvisos();
 carregarEventos();
 carregarMateriais();
+
+// ==========================================
+// MÓDULO: HORÁRIOS E CONTATOS
+// ==========================================
+
+// 1. CARREGAR HORÁRIOS
+async function carregarHorarios() {
+    const container = document.getElementById('lista-horarios');
+    try {
+        const snap = await getDocs(collection(db, "horarios"));
+        if (snap.empty) return container.innerHTML = '<p class="text-zinc-500 text-sm">Nenhuma aula cadastrada.</p>';
+        container.innerHTML = '';
+        
+        let horariosList = [];
+        snap.forEach(doc => horariosList.push({ id: doc.id, ...doc.data() }));
+        
+        // Ordena pelos números que colocamos ocultos no select (1, 2, 3...)
+        horariosList.sort((a, b) => a.dia.localeCompare(b.dia));
+
+        // Agrupar por dia da semana para não repetir o nome do dia na tela
+        let diaAtual = "";
+
+        horariosList.forEach(aula => {
+            const nomeDoDia = aula.dia.split('-')[1]; // Tira o "1-" e pega só "Segunda-feira"
+
+            // Se mudou o dia, cria um cabecalho novo
+            if (nomeDoDia !== diaAtual) {
+                const tituloDia = document.createElement('h4');
+                tituloDia.className = "text-white font-extrabold mt-4 mb-2";
+                tituloDia.textContent = nomeDoDia;
+                container.appendChild(tituloDia);
+                diaAtual = nomeDoDia;
+            }
+
+            const card = document.createElement('div');
+            card.className = "bg-white/[0.03] backdrop-blur-md p-4 rounded-2xl border border-white/5 flex gap-4 items-center";
+            card.innerHTML = `
+                <div class="bg-indigo-600/20 text-indigo-400 font-bold px-3 py-2 rounded-xl text-xs whitespace-nowrap border border-indigo-500/20">
+                    <i class="ph-bold ph-clock mr-1"></i> ${aula.hora}
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-sm">${aula.materia}</h5>
+                    <p class="text-zinc-400 text-xs mt-0.5"><i class="ph-fill ph-chalkboard-teacher mr-1"></i> ${aula.prof}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
+}
+
+// 2. CARREGAR CONTATOS
+async function carregarContatos() {
+    const container = document.getElementById('lista-contatos');
+    try {
+        const snap = await getDocs(collection(db, "contatos"));
+        if (snap.empty) return container.innerHTML = '<p class="text-zinc-500 text-sm">Nenhum contato salvo.</p>';
+        container.innerHTML = '';
+        
+        let contatosList = [];
+        snap.forEach(doc => contatosList.push({ id: doc.id, ...doc.data() }));
+        contatosList.sort((a, b) => a.nome.localeCompare(b.nome));
+
+        contatosList.forEach(contato => {
+            const card = document.createElement('div');
+            card.className = "bg-white/[0.03] backdrop-blur-md p-4 rounded-[1.5rem] border border-white/5 flex justify-between items-center gap-2";
+            card.innerHTML = `
+                <div>
+                    <h5 class="text-white font-bold text-sm">${contato.nome}</h5>
+                    <p class="text-zinc-500 text-[10px] uppercase font-bold tracking-wider mt-0.5">${contato.cargo}</p>
+                </div>
+                <div class="flex gap-2">
+                    <a href="tel:${contato.numero}" class="w-10 h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center text-white transition border border-white/10">
+                        <i class="ph-fill ph-phone text-lg"></i>
+                    </a>
+                    <a href="https://wa.me/55${contato.numero}" target="_blank" class="w-10 h-10 bg-[#D4FF00]/10 hover:bg-[#D4FF00]/20 rounded-full flex items-center justify-center text-[#D4FF00] transition border border-[#D4FF00]/20">
+                        <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                    </a>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
+}
+
+// Chamar as funções quando o App abrir
+carregarHorarios();
+carregarContatos();
