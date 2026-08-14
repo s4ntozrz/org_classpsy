@@ -6,126 +6,120 @@
     <title>Painel de Controle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-
+    
+    <!-- Ícones Profissionais (Phosphor) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body class="min-h-screen text-white relative overflow-x-hidden">
 
-    <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 blur-[100px] pointer-events-none -z-10"></div>
+    <div class="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 blur-[80px] pointer-events-none -z-10"></div>
 
-    <header class="p-6 flex justify-between items-center max-w-lg mx-auto w-full">
-        <h1 class="font-extrabold text-xl tracking-tight">Painel Admin</h1>
-        <button id="btn-logout" class="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/10 transition">Sair</button>
+    <header class="p-4 sm:p-6 flex justify-between items-center max-w-lg mx-auto w-full">
+        <div class="flex items-center gap-2">
+            <i class="ph-fill ph-gear text-2xl text-zinc-400"></i>
+            <h1 class="font-extrabold text-lg tracking-tight">Painel Admin</h1>
+        </div>
+        <button id="btn-logout" class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl text-xs font-semibold hover:bg-white/10 transition flex items-center gap-1 text-zinc-400 hover:text-white">
+            <i class="ph-bold ph-sign-out"></i> Sair
+        </button>
     </header>
 
-    <nav class="flex overflow-x-auto p-4 gap-3 max-w-lg mx-auto w-full border-b border-white/10 mb-4 whitespace-nowrap">
-        <button class="tab-btn active bg-[#D4FF00] text-black px-5 py-2 rounded-full text-sm font-bold shadow-[0_0_15px_rgba(212,255,0,0.3)]" data-target="aba-alunos">👥 Alunos</button>
-        <button class="tab-btn bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm font-bold text-zinc-400 hover:text-white" data-target="aba-avisos">📢 Avisos</button>
-        <button class="tab-btn bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm font-bold text-zinc-400 hover:text-white" data-target="aba-eventos">📅 Eventos</button>
-        <button class="tab-btn bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm font-bold text-zinc-400 hover:text-white" data-target="aba-materiais">📚 Materiais</button>
-        <button class="tab-btn bg-white/5 border border-white/10 px-5 py-2 rounded-full text-sm font-bold text-zinc-400 hover:text-white transition" data-target="aba-rotina">🕒 Rotina</button>
+    <!-- Abas com Botões mais compactos (py-1.5 text-xs) -->
+    <nav class="flex overflow-x-auto px-4 pb-3 gap-2 max-w-lg mx-auto w-full border-b border-white/10 mb-4 whitespace-nowrap">
+        <button class="tab-btn active bg-[#D4FF00] text-black px-4 py-1.5 rounded-full text-xs font-bold shadow-[0_0_10px_rgba(212,255,0,0.3)] transition flex items-center gap-1" data-target="aba-alunos"><i class="ph-fill ph-users text-sm"></i> Alunos</button>
+        <button class="tab-btn bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-1" data-target="aba-avisos"><i class="ph-fill ph-megaphone-simple text-sm"></i> Avisos</button>
+        <button class="tab-btn bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-1" data-target="aba-eventos"><i class="ph-fill ph-calendar-blank text-sm"></i> Eventos</button>
+        <button class="tab-btn bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-1" data-target="aba-materiais"><i class="ph-fill ph-folder-notch text-sm"></i> Materiais</button>
+        <button class="tab-btn bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-1" data-target="aba-rotina"><i class="ph-fill ph-clock text-sm"></i> Rotina</button>
     </nav>
 
-    <main class="p-5 max-w-lg mx-auto w-full pb-20">
+    <main class="p-4 max-w-lg mx-auto w-full pb-20">
         
-        <!-- ABA ALUNOS (AGORA COM LISTA DE GERENCIAMENTO) -->
-        <section id="aba-alunos" class="tab-content block">
-            
-            <!-- Bloco 1: Formulário -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 mb-6">
-                <h2 class="text-xl font-extrabold mb-4">Novo Aluno</h2>
-                <form id="form-aluno" class="space-y-4">
-                    <input type="text" id="nome-aluno" placeholder="Nome Completo" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="number" id="matricula-aluno" placeholder="Matrícula (Apenas Números)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <button type="submit" class="w-full bg-[#D4FF00] text-black font-extrabold py-3.5 rounded-full shadow-[0_0_15px_rgba(212,255,0,0.2)]">Cadastrar Aluno</button>
+        <!-- ABA ALUNOS -->
+        <section id="aba-alunos" class="tab-content block space-y-4">
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Novo Aluno</h2>
+                <form id="form-aluno" class="space-y-3">
+                    <input type="text" id="nome-aluno" placeholder="Nome Completo" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
+                    <input type="number" id="matricula-aluno" placeholder="Matrícula (Apenas Números)" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
+                    <button type="submit" class="w-full bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)]">Cadastrar Aluno</button>
                 </form>
             </div>
-
-            <!-- Bloco 2: Lista de Alunos -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Alunos Cadastrados</h2>
-                
-                <!-- A lista gerada pelo JS vai aparecer aqui dentro. 
-                     Adicionamos max-h-72 e overflow-y-auto para a lista rolar caso tenha muitos alunos. -->
-                <div id="lista-alunos" class="space-y-3 max-h-72 overflow-y-auto">
-                    <p class="text-zinc-500 text-sm text-center">Carregando lista...</p>
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Alunos Cadastrados</h2>
+                <div id="lista-alunos" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    <p class="text-zinc-500 text-xs text-center">Carregando lista...</p>
                 </div>
             </div>
-            
         </section>
 
         <!-- ABA AVISOS -->
         <section id="aba-avisos" class="tab-content hidden">
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Novo Aviso</h2>
-                <form id="form-aviso" class="space-y-4">
-                    <input type="text" id="titulo-aviso" placeholder="Título" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <textarea id="texto-aviso" rows="3" placeholder="Mensagem" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required></textarea>
-                    <select id="urgencia-aviso" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none text-zinc-400">
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Novo Aviso</h2>
+                <form id="form-aviso" class="space-y-3">
+                    <input type="text" id="titulo-aviso" placeholder="Título" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <textarea id="texto-aviso" rows="3" placeholder="Mensagem" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required></textarea>
+                    <select id="urgencia-aviso" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400">
                         <option value="normal" class="bg-black">Normal</option>
                         <option value="importante" class="bg-black">Importante</option>
                         <option value="urgente" class="bg-black">Urgente</option>
                     </select>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3.5 rounded-full">Publicar</button>
+                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Publicar</button>
                 </form>
             </div>
         </section>
 
         <!-- ABA EVENTOS -->
-<!-- ABA EVENTOS (Com Importação) -->
-        <section id="aba-eventos" class="tab-content hidden">
-            <!-- Agendamento Manual -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 mb-6">
-                <h2 class="text-xl font-extrabold mb-4">Agendar Evento Manual</h2>
-                <form id="form-evento" class="space-y-4">
-                    <input type="text" id="titulo-evento" placeholder="Nome do Evento" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="date" id="data-evento" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none text-zinc-400" required>
-                    <select id="tipo-evento" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none text-zinc-400">
+        <section id="aba-eventos" class="tab-content hidden space-y-4">
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Agendar Evento Manual</h2>
+                <form id="form-evento" class="space-y-3">
+                    <input type="text" id="titulo-evento" placeholder="Nome do Evento" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <input type="date" id="data-evento" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400 focus:border-indigo-500" required>
+                    <select id="tipo-evento" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400">
                         <option value="prova" class="bg-black">Prova</option>
                         <option value="trabalho" class="bg-black">Trabalho</option>
                         <option value="feriado" class="bg-black">Feriado</option>
                     </select>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3.5 rounded-full">Agendar Manualmente</button>
+                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Agendar Manualmente</button>
                 </form>
             </div>
-
-            <!-- Importação em Massa -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 border-dashed">
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="text-2xl">⚡</span>
-                    <h2 class="text-xl font-extrabold">Importação em Massa</h2>
+            
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10 border-dashed">
+                <div class="flex items-center gap-2 mb-1">
+                    <i class="ph-fill ph-lightning text-xl text-[#D4FF00]"></i>
+                    <h2 class="text-lg font-extrabold">Importação em Massa</h2>
                 </div>
-                <p class="text-xs text-zinc-400 mb-4 font-medium leading-relaxed">
-                    Envie um arquivo CSV da faculdade para importar tudo de uma vez. <br>
-                    <strong class="text-indigo-400">Formato exigido:</strong> Titulo, Data(AAAA-MM-DD), Tipo(prova/trabalho/feriado)
+                <p class="text-[10px] text-zinc-400 mb-3 font-medium leading-relaxed">
+                    Envie um CSV. Formato: Titulo, Data(AAAA-MM-DD), Tipo(prova/trabalho/feriado)
                 </p>
-                <input type="file" id="arquivo-csv" accept=".csv" class="block w-full text-sm text-zinc-400 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-extrabold file:bg-[#D4FF00] file:text-black hover:file:bg-[#bce000] file:transition-all mb-4 cursor-pointer outline-none">
-                <button id="btn-importar-csv" class="w-full bg-white/10 hover:bg-white/20 text-white font-extrabold py-3.5 rounded-full transition-all">
-                    Processar Arquivo CSV
+                <input type="file" id="arquivo-csv" accept=".csv" class="block w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-extrabold file:bg-[#D4FF00] file:text-black hover:file:bg-[#bce000] file:transition-all mb-3 cursor-pointer outline-none">
+                <button id="btn-importar-csv" class="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-extrabold py-2.5 rounded-full transition-all">
+                    Processar CSV
                 </button>
             </div>
         </section>
 
         <!-- ABA MATERIAIS -->
         <section id="aba-materiais" class="tab-content hidden">
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Anexar Material</h2>
-                <form id="form-material" class="space-y-4">
-                    <input type="text" id="materia-material" placeholder="Disciplina" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="text" id="titulo-material" placeholder="Título" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="url" id="link-material" placeholder="Link do Drive" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3.5 rounded-full">Publicar</button>
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Anexar Material</h2>
+                <form id="form-material" class="space-y-3">
+                    <input type="text" id="materia-material" placeholder="Disciplina" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <input type="text" id="titulo-material" placeholder="Título" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <input type="url" id="link-material" placeholder="Link do Drive" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Publicar</button>
                 </form>
             </div>
         </section>
-        
-<!-- ABA ROTINA (Horários e Contatos com Gerenciamento) -->
-        <section id="aba-rotina" class="tab-content hidden space-y-6">
-            
-            <!-- BLOCO 1: HORÁRIOS -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Adicionar Aula na Grade</h2>
-                <form id="form-horario" class="space-y-4 mb-6">
-                    <select id="dia-horario" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none text-zinc-400" required>
+
+        <!-- ABA ROTINA -->
+        <section id="aba-rotina" class="tab-content hidden space-y-4">
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Adicionar Aula</h2>
+                <form id="form-horario" class="space-y-3 mb-4">
+                    <select id="dia-horario" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400 focus:border-[#D4FF00]" required>
                         <option value="1-Segunda-feira" class="bg-black">Segunda-feira</option>
                         <option value="2-Terça-feira" class="bg-black">Terça-feira</option>
                         <option value="3-Quarta-feira" class="bg-black">Quarta-feira</option>
@@ -133,42 +127,31 @@
                         <option value="5-Sexta-feira" class="bg-black">Sexta-feira</option>
                         <option value="6-Sábado" class="bg-black">Sábado</option>
                     </select>
-                    <input type="text" id="materia-horario" placeholder="Disciplina (Ex: Anatomia)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="text" id="hora-horario" placeholder="Horário (Ex: 19:00 - 20:40)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="text" id="prof-horario" placeholder="Professor" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <button type="submit" class="w-full bg-[#D4FF00] text-black font-extrabold py-3.5 rounded-full shadow-[0_0_15px_rgba(212,255,0,0.2)]">Adicionar na Grade</button>
+                    <input type="text" id="materia-horario" placeholder="Disciplina" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
+                    <input type="text" id="hora-horario" placeholder="Horário (Ex: 19:00 - 20:40)" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
+                    <input type="text" id="prof-horario" placeholder="Professor" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
+                    <button type="submit" class="w-full bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)]">Adicionar na Grade</button>
                 </form>
-
-                <!-- Gerenciar Horários -->
-                <div class="border-t border-white/10 pt-6">
-                    <h3 class="text-sm font-extrabold text-zinc-400 uppercase tracking-wider mb-3">Grade Atual Cadastrada</h3>
-                    <div id="lista-admin-horarios" class="space-y-2 max-h-60 overflow-y-auto pr-2">
-                        <p class="text-zinc-500 text-sm text-center">Buscando grade...</p>
-                    </div>
+                <div class="border-t border-white/10 pt-4">
+                    <h3 class="text-[10px] font-extrabold text-zinc-400 uppercase tracking-wider mb-2">Grade Cadastrada</h3>
+                    <div id="lista-admin-horarios" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
                 </div>
             </div>
 
-            <!-- BLOCO 2: CONTATOS -->
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Adicionar Contato</h2>
-                <form id="form-contato" class="space-y-4 mb-6">
-                    <input type="text" id="nome-contato" placeholder="Nome (Ex: Secretaria)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="text" id="cargo-contato" placeholder="Cargo (Ex: Atendimento)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <input type="number" id="numero-contato" placeholder="WhatsApp c/ DDD (Ex: 11999999999)" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3.5 rounded-full">Salvar Contato</button>
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Adicionar Contato</h2>
+                <form id="form-contato" class="space-y-3 mb-4">
+                    <input type="text" id="nome-contato" placeholder="Nome" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <input type="text" id="cargo-contato" placeholder="Cargo" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <input type="number" id="numero-contato" placeholder="WhatsApp c/ DDD" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
+                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Salvar Contato</button>
                 </form>
-
-                <!-- Gerenciar Contatos -->
-                <div class="border-t border-white/10 pt-6">
-                    <h3 class="text-sm font-extrabold text-zinc-400 uppercase tracking-wider mb-3">Contatos Salvos</h3>
-                    <div id="lista-admin-contatos" class="space-y-2 max-h-60 overflow-y-auto pr-2">
-                        <p class="text-zinc-500 text-sm text-center">Buscando contatos...</p>
-                    </div>
+                <div class="border-t border-white/10 pt-4">
+                    <h3 class="text-[10px] font-extrabold text-zinc-400 uppercase tracking-wider mb-2">Contatos Salvos</h3>
+                    <div id="lista-admin-contatos" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
                 </div>
             </div>
-
         </section>
-        
     </main>
 
     <script type="module" src="assets/js/admin.js"></script>
