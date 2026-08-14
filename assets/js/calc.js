@@ -1,24 +1,35 @@
-// 1. Pega a matrícula de quem está logado no momento
-const matriculaAluno = localStorage.getItem('alunoLogado');
+// Função que sempre busca a chave exata do aluno ativo no momento
+function getChaveAluno() {
+    const matricula = localStorage.getItem('alunoLogado') || 'desconhecido';
+    return `notas_${matricula}`;
+}
 
-// 2. Cria uma "gaveta" (chave) única para este aluno no celular (Ex: notas_2024001)
-const chaveNotas = `notas_${matriculaAluno}`;
+// Função que busca as notas exclusivas desse aluno
+function getMateriasAluno() {
+    return JSON.parse(localStorage.getItem(getChaveAluno())) || [];
+}
 
-const formCalc = document.getElementById('form-calc');
-const listaMaterias = document.getElementById('lista-materias');
-
-// 3. Agora ele busca as notas APENAS na gaveta dessa matrícula
-let materias = JSON.parse(localStorage.getItem(chaveNotas)) || [];
+// Função que salva as notas na gaveta certa
+function salvarMateriasAluno(materias) {
+    localStorage.setItem(getChaveAluno(), JSON.stringify(materias));
+}
 
 function calcularMedia(n1, n2) { 
     return ((n1 + n2) / 2).toFixed(1); 
 }
 
+const formCalc = document.getElementById('form-calc');
+const listaMaterias = document.getElementById('lista-materias');
+
 function atualizarLista() {
+    if (!listaMaterias) return; // Proteção
+    
     listaMaterias.innerHTML = '';
+    const materias = getMateriasAluno(); // Busca as notas do aluno ativo
     
     if (materias.length === 0) {
-        return listaMaterias.innerHTML = '<p class="text-center text-zinc-500 text-xs mt-4">Nenhuma matéria salva ainda.</p>';
+        listaMaterias.innerHTML = '<p class="text-center text-zinc-500 text-xs mt-4">Nenhuma matéria salva ainda.</p>';
+        return;
     }
 
     materias.forEach((item, index) => {
@@ -27,7 +38,6 @@ function atualizarLista() {
 
         const card = document.createElement('div');
         card.className = "bg-white/[0.04] p-3 rounded-2xl border border-white/10 flex justify-between items-center";
-        
         card.innerHTML = `
             <div>
                 <h4 class="font-bold text-white text-sm">${item.nome}</h4>
@@ -42,30 +52,32 @@ function atualizarLista() {
     });
 }
 
-formCalc.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const nome = document.getElementById('calc-materia').value;
-    const n1 = parseFloat(document.getElementById('calc-nota1').value);
-    const n2 = parseFloat(document.getElementById('calc-nota2').value);
+if (formCalc) {
+    formCalc.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nome = document.getElementById('calc-materia').value;
+        const n1 = parseFloat(document.getElementById('calc-nota1').value);
+        const n2 = parseFloat(document.getElementById('calc-nota2').value);
 
-    materias.push({ nome, n1, n2 });
-    
-    // 4. Salva as notas na gaveta específica dessa matrícula
-    localStorage.setItem(chaveNotas, JSON.stringify(materias));
-    
-    formCalc.reset();
-    atualizarLista();
-});
+        const materias = getMateriasAluno(); // Pega a lista atual do aluno
+        materias.push({ nome, n1, n2 });
+        
+        salvarMateriasAluno(materias); // Salva na gaveta dele
+        
+        formCalc.reset();
+        atualizarLista();
+    });
+}
 
 window.deletarMateria = function(index) {
     if(confirm("Apagar matéria?")) {
+        const materias = getMateriasAluno();
         materias.splice(index, 1);
-        // Atualiza a gaveta específica ao deletar
-        localStorage.setItem(chaveNotas, JSON.stringify(materias));
+        salvarMateriasAluno(materias);
         atualizarLista();
     }
 }
 
-// Renderiza as notas assim que o aluno abre a tela
+// Inicia a lista ao carregar
 atualizarLista();
