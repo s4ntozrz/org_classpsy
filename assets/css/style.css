@@ -3,8 +3,8 @@
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
-    background-color: #0A0A0A; /* Fundo super escuro (App Premium) */
-    color: #ffffff;
+    background-color: #13171B; /* Deep Charcoal */
+    color: #FFFFFF; /* Pure White */
 }
 
 input[type=number]::-webkit-inner-spin-button, 
