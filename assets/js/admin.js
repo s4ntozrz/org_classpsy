@@ -175,3 +175,66 @@ if(formMaterial) {
         } catch (error) { alert("Erro ao publicar."); } finally { btn.textContent = "Publicar"; btn.disabled = false; }
     });
 }
+
+// ==========================================
+// IMPORTAÇÃO EM MASSA (CSV)
+// ==========================================
+document.getElementById('btn-importar-csv').addEventListener('click', () => {
+    const fileInput = document.getElementById('arquivo-csv');
+    const btn = document.getElementById('btn-importar-csv');
+    
+    if (!fileInput.files.length) {
+        alert("Por favor, selecione um arquivo .csv primeiro.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    btn.textContent = "Processando...";
+    btn.disabled = true;
+
+    reader.onload = async function(e) {
+        const text = e.target.result;
+        // Quebra o texto por linhas (Enter)
+        const linhas = text.split('\n');
+        let importados = 0;
+
+        try {
+            // Ignoramos a linha 0 (cabeçalho) e vamos até o final
+            for (let i = 1; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                if (!linha) continue; // Pula linha vazia
+                
+                // Quebra a linha por vírgula ou ponto e vírgula
+                const colunas = linha.split(/,|;/);
+                
+                if (colunas.length >= 3) {
+                    const titulo = colunas[0].trim();
+                    const data = colunas[1].trim(); 
+                    const tipo = colunas[2].trim().toLowerCase();
+                    
+                    // Salva no banco de dados sem precisar de formulário
+                    await addDoc(collection(db, "eventos"), { 
+                        titulo: titulo, 
+                        data: data, 
+                        tipo: tipo, 
+                        criadoEm: serverTimestamp() 
+                    });
+                    importados++;
+                }
+            }
+            alert(`Sucesso! ${importados} eventos foram importados para o calendário.`);
+            fileInput.value = ''; // Limpa o arquivo
+        } catch (error) {
+            console.error("Erro na importação:", error);
+            alert("Ocorreu um erro ao importar o arquivo. Verifique se o formato está correto.");
+        } finally {
+            btn.textContent = "Processar Arquivo CSV";
+            btn.disabled = false;
+        }
+    };
+
+    // Manda o leitor ler o arquivo como texto
+    reader.readAsText(file);
+});

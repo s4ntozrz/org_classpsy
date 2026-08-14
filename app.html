@@ -31,14 +31,32 @@
             <div id="container-avisos" class="space-y-4"></div>
         </section>
 
-        <section id="tela-eventos" class="tela-app hidden space-y-6">
+        <!-- EVENTOS -->
+        <section id="tela-eventos" class="tela-app hidden space-y-4">
             <h2 class="text-2xl font-extrabold tracking-tight">Calendário</h2>
-            <div class="bg-indigo-600 rounded-[2rem] p-5 shadow-[0_10px_30px_rgba(79,70,229,0.3)] flex justify-between items-center">
+            
+            <!-- Controle de Mês -->
+            <div class="bg-indigo-600 rounded-[2rem] p-5 shadow-[0_10px_30px_rgba(79,70,229,0.3)] flex justify-between items-center mb-2">
                 <button id="btn-mes-anterior" class="w-10 h-10 bg-black/20 hover:bg-black/40 rounded-full text-white font-bold transition">&lt;</button>
                 <h3 id="mes-atual-display" class="font-bold text-white text-lg tracking-wider">...</h3>
                 <button id="btn-mes-proximo" class="w-10 h-10 bg-black/20 hover:bg-black/40 rounded-full text-white font-bold transition">&gt;</button>
             </div>
-            <div id="lista-eventos-mes" class="space-y-3"></div>
+
+            <!-- Grid do Calendário Visual (Novo) -->
+            <div class="bg-white/[0.03] backdrop-blur-2xl p-5 rounded-[2rem] border border-white/10">
+                <!-- Cabeçalho dos dias da semana -->
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest mb-2">
+                    <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
+                </div>
+                <!-- Onde os números dos dias vão aparecer -->
+                <div id="calendario-dias" class="grid grid-cols-7 gap-1 text-center"></div>
+            </div>
+
+            <!-- Lista de Eventos -->
+            <div class="pt-2">
+                <h4 id="titulo-lista-eventos" class="text-xs font-extrabold text-zinc-400 uppercase tracking-wider mb-4 pl-1 border-l-2 border-[#D4FF00]">Resumo do Mês</h4>
+                <div id="lista-eventos-mes" class="space-y-3"></div>
+            </div>
         </section>
 
         <section id="tela-materiais" class="tela-app hidden space-y-6">

@@ -58,9 +58,12 @@ async function carregarAvisos() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
-// CALENDÁRIO
+// ==========================================
+// MÓDULO: CALENDÁRIO VISUAL E EVENTOS
+// ==========================================
 let eventosGlobais = [];
 let dataCalendario = new Date();
+let diaSelecionado = null; // Variável para saber se o aluno clicou em um dia específico
 
 async function carregarEventos() {
     try {
@@ -73,22 +76,94 @@ async function carregarEventos() {
 
 function renderizarEventosDoMes() {
     const mesDisplay = document.getElementById('mes-atual-display');
+    const gridDias = document.getElementById('calendario-dias');
     const lista = document.getElementById('lista-eventos-mes');
-    const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    const mesAtual = dataCalendario.getMonth();
-    const anoAtual = dataCalendario.getFullYear();
+    const tituloLista = document.getElementById('titulo-lista-eventos');
     
+    const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const anoAtual = dataCalendario.getFullYear();
+    const mesAtual = dataCalendario.getMonth();
     mesDisplay.textContent = `${nomesMeses[mesAtual]} ${anoAtual}`;
+
+    // 1. Filtrar os eventos do mês
     const eventosMes = eventosGlobais.filter(e => {
-        const [a, m, d] = e.data.split('-');
+        if(!e.data) return false;
+        const [a, m] = e.data.split('-');
         return parseInt(a) === anoAtual && parseInt(m) - 1 === mesAtual;
     });
-    eventosMes.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+    // 2. Construir o Grid Visual (Dias)
+    gridDias.innerHTML = '';
+    const primeiroDiaSemana = new Date(anoAtual, mesAtual, 1).getDay(); // 0 a 6
+    const totalDiasMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
+
+    // Espaços vazios antes do dia 1
+    for(let i = 0; i < primeiroDiaSemana; i++) {
+        gridDias.innerHTML += `<div></div>`;
+    }
+
+    // Desenhar os dias
+    for(let dia = 1; dia <= totalDiasMes; dia++) {
+        // Cria a string da data no formato YYYY-MM-DD
+        const diaStr = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        
+        // Verifica se tem evento neste dia
+        const temEvento = eventosMes.some(e => e.data === diaStr);
+        
+        // Estilos e Pontinho
+        let classeCaixa = 'text-zinc-300 hover:bg-white/10';
+        let pontinho = temEvento ? `<div class="w-1 h-1 bg-[#D4FF00] rounded-full mx-auto mt-0.5 shadow-[0_0_5px_rgba(212,255,0,0.8)]"></div>` : '';
+        
+        // Se este dia foi clicado/selecionado
+        if (diaSelecionado === diaStr) {
+            classeCaixa = 'bg-[#D4FF00] text-black font-extrabold shadow-[0_0_15px_rgba(212,255,0,0.4)]';
+            pontinho = temEvento ? `<div class="w-1 h-1 bg-black rounded-full mx-auto mt-0.5"></div>` : '';
+        }
+
+        const divDia = document.createElement('div');
+        divDia.className = "py-1 cursor-pointer";
+        divDia.innerHTML = `
+            <div class="w-8 h-8 mx-auto flex flex-col items-center justify-center rounded-full transition-all duration-300 ${classeCaixa}">
+                <span class="text-sm ${diaSelecionado === diaStr ? 'mt-1' : ''}">${dia}</span>
+                ${pontinho}
+            </div>
+        `;
+        
+        // Lógica do clique no dia
+        divDia.addEventListener('click', () => {
+            if (diaSelecionado === diaStr) {
+                diaSelecionado = null; // Se clicar de novo, tira a seleção (mostra o mês todo)
+            } else {
+                diaSelecionado = diaStr; // Seleciona o dia
+            }
+            renderizarEventosDoMes(); // Atualiza a tela
+        });
+
+        gridDias.appendChild(divDia);
+    }
+
+    // 3. Renderizar a Lista de Eventos (Resumo ou Dia específico)
+    let eventosParaMostrar = eventosMes;
+    
+    if (diaSelecionado) {
+        // Se clicou em um dia, filtra só os eventos daquele dia
+        eventosParaMostrar = eventosMes.filter(e => e.data === diaSelecionado);
+        
+        const [a, m, d] = diaSelecionado.split('-');
+        tituloLista.textContent = `Eventos do dia ${d}/${m}`;
+    } else {
+        tituloLista.textContent = `Resumo de ${nomesMeses[mesAtual]}`;
+    }
+
+    eventosParaMostrar.sort((a, b) => new Date(a.data) - new Date(b.data));
     lista.innerHTML = '';
     
-    if (eventosMes.length === 0) return lista.innerHTML = `<p class="text-center text-zinc-500 mt-6">Nenhum evento.</p>`;
+    if (eventosParaMostrar.length === 0) {
+        lista.innerHTML = `<p class="text-center text-zinc-500 mt-6">Nenhum evento para esta data.</p>`;
+        return;
+    }
 
-    eventosMes.forEach(evento => {
+    eventosParaMostrar.forEach(evento => {
         const [, , dia] = evento.data.split('-'); 
         let corBolinha = 'bg-indigo-500';
         if(evento.tipo === 'prova') corBolinha = 'bg-red-500';
@@ -112,9 +187,17 @@ function renderizarEventosDoMes() {
         lista.appendChild(card);
     });
 }
-document.getElementById('btn-mes-anterior').addEventListener('click', () => { dataCalendario.setMonth(dataCalendario.getMonth() - 1); renderizarEventosDoMes(); });
-document.getElementById('btn-mes-proximo').addEventListener('click', () => { dataCalendario.setMonth(dataCalendario.getMonth() + 1); renderizarEventosDoMes(); });
 
+document.getElementById('btn-mes-anterior').addEventListener('click', () => { 
+    diaSelecionado = null; // Reseta seleção ao trocar de mês
+    dataCalendario.setMonth(dataCalendario.getMonth() - 1); 
+    renderizarEventosDoMes(); 
+});
+document.getElementById('btn-mes-proximo').addEventListener('click', () => { 
+    diaSelecionado = null;
+    dataCalendario.setMonth(dataCalendario.getMonth() + 1); 
+    renderizarEventosDoMes(); 
+});
 // MATERIAIS
 async function carregarMateriais() {
     const container = document.getElementById('lista-materiais');

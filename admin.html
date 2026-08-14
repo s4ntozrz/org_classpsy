@@ -69,9 +69,11 @@
         </section>
 
         <!-- ABA EVENTOS -->
+<!-- ABA EVENTOS (Com Importação) -->
         <section id="aba-eventos" class="tab-content hidden">
-            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10">
-                <h2 class="text-xl font-extrabold mb-4">Agendar Evento</h2>
+            <!-- Agendamento Manual -->
+            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 mb-6">
+                <h2 class="text-xl font-extrabold mb-4">Agendar Evento Manual</h2>
                 <form id="form-evento" class="space-y-4">
                     <input type="text" id="titulo-evento" placeholder="Nome do Evento" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none" required>
                     <input type="date" id="data-evento" class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-2xl outline-none text-zinc-400" required>
@@ -80,8 +82,24 @@
                         <option value="trabalho" class="bg-black">Trabalho</option>
                         <option value="feriado" class="bg-black">Feriado</option>
                     </select>
-                    <button type="submit" class="w-full bg-[#D4FF00] text-black font-extrabold py-3.5 rounded-full">Agendar</button>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-extrabold py-3.5 rounded-full">Agendar Manualmente</button>
                 </form>
+            </div>
+
+            <!-- Importação em Massa -->
+            <div class="bg-white/[0.03] backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 border-dashed">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-2xl">⚡</span>
+                    <h2 class="text-xl font-extrabold">Importação em Massa</h2>
+                </div>
+                <p class="text-xs text-zinc-400 mb-4 font-medium leading-relaxed">
+                    Envie um arquivo CSV da faculdade para importar tudo de uma vez. <br>
+                    <strong class="text-indigo-400">Formato exigido:</strong> Titulo, Data(AAAA-MM-DD), Tipo(prova/trabalho/feriado)
+                </p>
+                <input type="file" id="arquivo-csv" accept=".csv" class="block w-full text-sm text-zinc-400 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-extrabold file:bg-[#D4FF00] file:text-black hover:file:bg-[#bce000] file:transition-all mb-4 cursor-pointer outline-none">
+                <button id="btn-importar-csv" class="w-full bg-white/10 hover:bg-white/20 text-white font-extrabold py-3.5 rounded-full transition-all">
+                    Processar Arquivo CSV
+                </button>
             </div>
         </section>
 
