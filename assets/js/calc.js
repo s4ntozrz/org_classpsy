@@ -20,8 +20,8 @@ function atualizarLista() {
                 <p class="text-xs text-zinc-500">N1: ${item.n1} | N2: ${item.n2}</p>
                 <p class="text-sm mt-1 text-zinc-300">Média: <span class="font-bold text-white">${media}</span> - ${status}</p>
             </div>
-            <button onclick="deletarMateria(${index})" class="w-10 h-10 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/20 transition">
-                🗑️
+            <button onclick="deletarMateria(${index})" class="w-10 h-10 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shadow-sm shrink-0">
+                <i class="ph-bold ph-trash text-lg"></i>
             </button>
         `;
         listaMaterias.appendChild(card);
