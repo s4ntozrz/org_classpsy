@@ -6,8 +6,6 @@
     <title>Painel de Controle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-    
-    <!-- Ícones Profissionais (Phosphor) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body class="min-h-screen text-white relative overflow-x-hidden">
@@ -24,7 +22,6 @@
         </button>
     </header>
 
-    <!-- Abas com Botões mais compactos (py-1.5 text-xs) -->
     <nav class="flex overflow-x-auto px-4 pb-3 gap-2 max-w-lg mx-auto w-full border-b border-white/10 mb-4 whitespace-nowrap">
         <button class="tab-btn active bg-[#D4FF00] text-black px-4 py-1.5 rounded-full text-xs font-bold shadow-[0_0_10px_rgba(212,255,0,0.3)] transition flex items-center gap-1" data-target="aba-alunos"><i class="ph-fill ph-users text-sm"></i> Alunos</button>
         <button class="tab-btn bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-1" data-target="aba-avisos"><i class="ph-fill ph-megaphone-simple text-sm"></i> Avisos</button>
@@ -38,25 +35,26 @@
         <!-- ABA ALUNOS -->
         <section id="aba-alunos" class="tab-content block space-y-4">
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Novo Aluno</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Aluno</h2>
                 <form id="form-aluno" class="space-y-3">
                     <input type="text" id="nome-aluno" placeholder="Nome Completo" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
                     <input type="number" id="matricula-aluno" placeholder="Matrícula (Apenas Números)" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
-                    <button type="submit" class="w-full bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)]">Cadastrar Aluno</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-aluno" class="flex-1 bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)] transition">Cadastrar</button>
+                        <button type="button" id="btn-cancel-aluno" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
             </div>
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
                 <h2 class="text-lg font-extrabold mb-3">Alunos Cadastrados</h2>
-                <div id="lista-alunos" class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                    <p class="text-zinc-500 text-xs text-center">Carregando lista...</p>
-                </div>
+                <div id="lista-alunos" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
             </div>
         </section>
 
         <!-- ABA AVISOS -->
-        <section id="aba-avisos" class="tab-content hidden">
+        <section id="aba-avisos" class="tab-content hidden space-y-4">
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Novo Aviso</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Aviso</h2>
                 <form id="form-aviso" class="space-y-3">
                     <input type="text" id="titulo-aviso" placeholder="Título" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <textarea id="texto-aviso" rows="3" placeholder="Mensagem" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required></textarea>
@@ -65,15 +63,22 @@
                         <option value="importante" class="bg-black">Importante</option>
                         <option value="urgente" class="bg-black">Urgente</option>
                     </select>
-                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Publicar</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-aviso" class="flex-1 bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full transition">Publicar</button>
+                        <button type="button" id="btn-cancel-aviso" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
+            </div>
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Avisos Ativos</h2>
+                <div id="lista-admin-avisos" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
             </div>
         </section>
 
         <!-- ABA EVENTOS -->
         <section id="aba-eventos" class="tab-content hidden space-y-4">
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Agendar Evento Manual</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Evento</h2>
                 <form id="form-evento" class="space-y-3">
                     <input type="text" id="titulo-evento" placeholder="Nome do Evento" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <input type="date" id="data-evento" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400 focus:border-indigo-500" required>
@@ -82,42 +87,52 @@
                         <option value="trabalho" class="bg-black">Trabalho</option>
                         <option value="feriado" class="bg-black">Feriado</option>
                     </select>
-                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Agendar Manualmente</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-evento" class="flex-1 bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full transition">Agendar</button>
+                        <button type="button" id="btn-cancel-evento" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
             </div>
             
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Eventos Salvos</h2>
+                <div id="lista-admin-eventos" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+            </div>
+
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10 border-dashed">
                 <div class="flex items-center gap-2 mb-1">
                     <i class="ph-fill ph-lightning text-xl text-[#D4FF00]"></i>
-                    <h2 class="text-lg font-extrabold">Importação em Massa</h2>
+                    <h2 class="text-lg font-extrabold">Importação em Massa (CSV)</h2>
                 </div>
-                <p class="text-[10px] text-zinc-400 mb-3 font-medium leading-relaxed">
-                    Envie um CSV. Formato: Titulo, Data(AAAA-MM-DD), Tipo(prova/trabalho/feriado)
-                </p>
-                <input type="file" id="arquivo-csv" accept=".csv" class="block w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-extrabold file:bg-[#D4FF00] file:text-black hover:file:bg-[#bce000] file:transition-all mb-3 cursor-pointer outline-none">
-                <button id="btn-importar-csv" class="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-extrabold py-2.5 rounded-full transition-all">
-                    Processar CSV
-                </button>
+                <input type="file" id="arquivo-csv" accept=".csv" class="block w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-extrabold file:bg-[#D4FF00] file:text-black hover:file:bg-[#bce000] file:transition-all mb-3 cursor-pointer outline-none mt-3">
+                <button id="btn-importar-csv" class="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-extrabold py-2.5 rounded-full transition-all">Processar CSV</button>
             </div>
         </section>
 
         <!-- ABA MATERIAIS -->
-        <section id="aba-materiais" class="tab-content hidden">
+        <section id="aba-materiais" class="tab-content hidden space-y-4">
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Anexar Material</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Material</h2>
                 <form id="form-material" class="space-y-3">
                     <input type="text" id="materia-material" placeholder="Disciplina" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <input type="text" id="titulo-material" placeholder="Título" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <input type="url" id="link-material" placeholder="Link do Drive" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
-                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Publicar</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-material" class="flex-1 bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full transition">Publicar</button>
+                        <button type="button" id="btn-cancel-material" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
+            </div>
+            <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
+                <h2 class="text-lg font-extrabold mb-3">Materiais Publicados</h2>
+                <div id="lista-admin-materiais" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
             </div>
         </section>
 
         <!-- ABA ROTINA -->
         <section id="aba-rotina" class="tab-content hidden space-y-4">
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Adicionar Aula</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Aula</h2>
                 <form id="form-horario" class="space-y-3 mb-4">
                     <select id="dia-horario" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none text-zinc-400 focus:border-[#D4FF00]" required>
                         <option value="1-Segunda-feira" class="bg-black">Segunda-feira</option>
@@ -130,7 +145,10 @@
                     <input type="text" id="materia-horario" placeholder="Disciplina" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
                     <input type="text" id="hora-horario" placeholder="Horário (Ex: 19:00 - 20:40)" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
                     <input type="text" id="prof-horario" placeholder="Professor" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-[#D4FF00]" required>
-                    <button type="submit" class="w-full bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)]">Adicionar na Grade</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-horario" class="flex-1 bg-[#D4FF00] text-black text-sm font-extrabold py-2.5 rounded-full shadow-[0_0_10px_rgba(212,255,0,0.2)] transition">Salvar Aula</button>
+                        <button type="button" id="btn-cancel-horario" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
                 <div class="border-t border-white/10 pt-4">
                     <h3 class="text-[10px] font-extrabold text-zinc-400 uppercase tracking-wider mb-2">Grade Cadastrada</h3>
@@ -139,12 +157,15 @@
             </div>
 
             <div class="bg-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Adicionar Contato</h2>
+                <h2 class="text-lg font-extrabold mb-3">Gerenciar Contato</h2>
                 <form id="form-contato" class="space-y-3 mb-4">
                     <input type="text" id="nome-contato" placeholder="Nome" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <input type="text" id="cargo-contato" placeholder="Cargo" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
                     <input type="number" id="numero-contato" placeholder="WhatsApp c/ DDD" class="w-full px-3 py-2.5 text-sm bg-white/[0.05] border border-white/10 rounded-xl outline-none focus:border-indigo-500" required>
-                    <button type="submit" class="w-full bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full">Salvar Contato</button>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-submit-contato" class="flex-1 bg-indigo-600 text-white text-sm font-extrabold py-2.5 rounded-full transition">Salvar Contato</button>
+                        <button type="button" id="btn-cancel-contato" class="hidden px-4 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-full transition">Cancelar</button>
+                    </div>
                 </form>
                 <div class="border-t border-white/10 pt-4">
                     <h3 class="text-[10px] font-extrabold text-zinc-400 uppercase tracking-wider mb-2">Contatos Salvos</h3>
