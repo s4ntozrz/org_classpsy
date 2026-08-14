@@ -15,11 +15,11 @@ navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         telas.forEach(tela => tela.classList.add('hidden'));
         navBtns.forEach(b => {
-            b.className = 'nav-btn w-12 h-12 flex items-center justify-center text-zinc-500 hover:text-white transition-all duration-300';
+            b.className = 'nav-btn w-10 h-10 flex items-center justify-center text-zinc-500 hover:text-white transition-all duration-300';
         });
         const target = btn.getAttribute('data-target');
         document.getElementById(target).classList.remove('hidden');
-        btn.className = 'nav-btn active w-12 h-12 flex items-center justify-center bg-[#D4FF00] text-black rounded-full shadow-[0_0_15px_rgba(212,255,0,0.4)] transition-all duration-300 transform scale-105';
+        btn.className = 'nav-btn active w-10 h-10 flex items-center justify-center bg-[#D4FF00] text-black rounded-full shadow-[0_0_15px_rgba(212,255,0,0.4)] transition-all duration-300 transform scale-105';
     });
 });
 
@@ -41,7 +41,7 @@ async function carregarAvisos() {
             let data = aviso.dataPublicacao ? aviso.dataPublicacao.toDate().toLocaleDateString('pt-BR') : '';
 
             const card = document.createElement('div');
-            card.className = `bg-white/[0.04] backdrop-blur-xl p-5 rounded-[2rem] border border-white/10 shadow-lg`;
+            card.className = `bg-white/[0.04] backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-lg`;
             card.innerHTML = `
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
@@ -173,7 +173,7 @@ function renderizarEventosDoMes() {
         const card = document.createElement('div');
         card.className = `bg-white/[0.04] backdrop-blur-md p-4 rounded-[1.5rem] border border-white/5 flex items-center gap-4`;
         card.innerHTML = `
-            <div class="flex flex-col items-center justify-center bg-white/5 rounded-2xl w-14 h-14 border border-white/10">
+            <div class="flex flex-col items-center justify-center bg-white/5 rounded-2xl w-12 h-12 border border-white/10">
                 <span class="text-xl font-extrabold text-white">${dia}</span>
             </div>
             <div class="flex-1">
@@ -211,7 +211,7 @@ async function carregarMateriais() {
 
         matList.forEach(item => {
             const card = document.createElement('div');
-            card.className = "bg-indigo-600/20 backdrop-blur-xl p-4 rounded-[2rem] border border-indigo-500/30 flex flex-col justify-between h-40 relative overflow-hidden";
+            card.className = "bg-indigo-600/20 backdrop-blur-xl p-4 rounded-2xl border border-indigo-500/30 flex flex-col justify-between h-32 relative overflow-hidden";
             card.innerHTML = `
                 <div class="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-[20px]"></div>
                 <div>

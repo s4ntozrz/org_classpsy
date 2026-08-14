@@ -7,50 +7,50 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="min-h-screen flex items-center justify-center p-5 relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
 
-    <!-- Luzes de Fundo (Ambient Glow) -->
-    <div class="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] bg-indigo-600/30 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#D4FF00]/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-[-10%] left-[-10%] w-[250px] h-[250px] bg-indigo-600/30 rounded-full blur-[80px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[250px] h-[250px] bg-[#D4FF00]/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-    <!-- Card Principal (Glassmorphism) -->
-    <div class="bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-8 sm:p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md relative z-10">
+    <!-- Card Principal (Paddings e bordas menores) -->
+    <div class="bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10">
         
-        <div class="text-center mb-10">
-            <div class="bg-[#D4FF00] text-black w-16 h-16 rounded-[1.25rem] flex items-center justify-center mx-auto mb-5 text-3xl shadow-[0_0_30px_rgba(212,255,0,0.3)]">
-                🧠
+        <div class="text-center mb-8">
+            <div class="bg-[#D4FF00] text-black w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_20px_rgba(212,255,0,0.3)]">
+                🎓
             </div>
-            <h1 id="page-title" class="text-3xl font-extrabold text-white tracking-tight">TURMA PSI. - 2026/2</h1>
-            <p id="page-subtitle" class="text-zinc-400 text-sm mt-2 font-medium">Digite sua matrícula para entrar</p>
+            <h1 id="page-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Portal Turma</h1>
+            <p id="page-subtitle" class="text-zinc-400 text-xs sm:text-sm mt-1 font-medium">Digite sua matrícula para entrar</p>
         </div>
 
-        <form id="student-form" class="space-y-5">
+        <form id="student-form" class="space-y-4">
             <div>
-                <input type="number" id="matricula" placeholder="Sua Matrícula" 
-                    class="w-full px-5 py-4 bg-white/[0.05] border border-white/10 rounded-2xl focus:outline-none focus:bg-white/[0.08] focus:border-[#D4FF00] transition-all font-medium text-white placeholder-zinc-500 text-center text-lg tracking-widest" required>
+                <!-- Input mais fino (py-3) e texto menor -->
+                <input type="number" id="matricula" name="matricula" autocomplete="username" placeholder="Sua Matrícula" 
+                    class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-xl focus:outline-none focus:bg-white/[0.08] focus:border-[#D4FF00] transition-all font-medium text-white placeholder-zinc-500 text-center tracking-widest" required>
             </div>
-            <button type="submit" class="w-full bg-[#D4FF00] hover:bg-[#bce000] text-black font-extrabold py-4 px-4 rounded-full transition-all shadow-[0_0_20px_rgba(212,255,0,0.2)]">
+            <button type="submit" class="w-full bg-[#D4FF00] hover:bg-[#bce000] text-black font-extrabold py-3 px-4 rounded-full transition-all shadow-[0_0_15px_rgba(212,255,0,0.2)] text-sm sm:text-base">
                 Acessar Plataforma
             </button>
         </form>
 
-        <form id="admin-form" class="space-y-5 hidden">
+        <form id="admin-form" class="space-y-4 hidden">
             <div>
-                <input type="email" id="email" placeholder="E-mail" 
-                    class="w-full px-5 py-4 bg-white/[0.05] border border-white/10 rounded-2xl focus:outline-none focus:bg-white/[0.08] focus:border-indigo-500 transition-all font-medium text-white placeholder-zinc-500">
+                <input type="email" id="email" placeholder="E-mail Admin" 
+                    class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-xl focus:outline-none focus:bg-white/[0.08] focus:border-indigo-500 transition-all font-medium text-white placeholder-zinc-500 text-sm">
             </div>
             <div>
                 <input type="password" id="password" placeholder="Senha" 
-                    class="w-full px-5 py-4 bg-white/[0.05] border border-white/10 rounded-2xl focus:outline-none focus:bg-white/[0.08] focus:border-indigo-500 transition-all font-medium text-white placeholder-zinc-500">
+                    class="w-full px-4 py-3 bg-white/[0.05] border border-white/10 rounded-xl focus:outline-none focus:bg-white/[0.08] focus:border-indigo-500 transition-all font-medium text-white placeholder-zinc-500 text-sm">
             </div>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-4 px-4 rounded-full transition-all">
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 px-4 rounded-full transition-all text-sm sm:text-base">
                 Entrar no Painel
             </button>
         </form>
 
-        <div class="mt-8 text-center">
-            <button id="toggle-login" type="button" class="text-sm font-semibold text-zinc-500 hover:text-white transition-colors">
-                 Acesso Restrito (Representantes)
+        <div class="mt-6 text-center">
+            <button id="toggle-login" type="button" class="text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
+                🔒 Acesso Restrito (Administrador)
             </button>
         </div>
     </div>

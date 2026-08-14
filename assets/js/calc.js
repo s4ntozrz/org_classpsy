@@ -13,7 +13,7 @@ function atualizarLista() {
         let status = media >= 7.0 ? '<span class="text-[#D4FF00] font-bold">Aprovado</span>' : '<span class="text-red-400 font-bold">Exame</span>';
 
         const card = document.createElement('div');
-        card.className = "bg-white/[0.04] p-4 rounded-[1.5rem] border border-white/10 flex justify-between items-center";
+        card.className = "bg-white/[0.04] p-4 rounded-2xl border border-white/10 flex justify-between items-center";
         card.innerHTML = `
             <div>
                 <h4 class="font-bold text-white">${item.nome}</h4>
