@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Trava o zoom do celular, igual fizemos no login -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Em Manutenção - Portal Psi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-mist': '#D7E1EC',
+                        'brand-blue': '#0030CF',
+                        'brand-white': '#FFFFFF',
+                        'brand-charcoal': '#13171B',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 4s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Animação customizada para a barra de progresso -->
+    <style>
+        @keyframes slide-bar {
+            0% { transform: translateX(-100%); width: 20%; }
+            50% { width: 40%; }
+            100% { transform: translateX(400%); width: 20%; }
+        }
+        .animate-slide-bar {
+            animation: slide-bar 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="fixed inset-0 w-full h-full flex items-center justify-center p-4 sm:p-6 bg-brand-charcoal overflow-hidden">
+
+    <!-- Luzes de Fundo (Animadas) -->
+    <div class="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] bg-brand-blue/30 rounded-full blur-[80px] pointer-events-none animate-pulse-slow"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-brand-mist/10 rounded-full blur-[80px] pointer-events-none animate-pulse"></div>
+
+    <!-- Card Principal Glassmorphism -->
+    <div class="bg-brand-white/[0.03] backdrop-blur-2xl border border-brand-white/10 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-md relative z-10 flex flex-col items-center text-center mx-auto">
+        
+<!-- Ícone Animado -->
+        <div class="relative w-24 h-24 flex items-center justify-center mb-6">
+            <!-- Fundo pulsante atrás do ícone -->
+            <div class="absolute inset-0 bg-brand-blue/20 rounded-full blur-xl animate-pulse"></div>
+            
+            <!-- Engrenagem Girando -->
+            <div class="relative flex items-center justify-center text-brand-blue text-4xl bg-brand-white/[0.05] border border-brand-white/10 w-20 h-20 rounded-[1.25rem] shadow-[0_0_20px_rgba(0,48,207,0.4)]">
+                <i class="ph-fill ph-gear animate-spin-slow leading-none"></i>
+                
+                <!-- Cérebro Pequeno de "Selo" (Corrigido com w-8 h-8 para não esticar) -->
+                <div class="absolute -bottom-2 -right-2 bg-brand-charcoal rounded-full w-8 h-8 flex items-center justify-center border border-brand-white/10">
+                    <i class="ph-fill ph-brain text-brand-mist text-sm leading-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Textos -->
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-white tracking-tight mb-2">Pausa para Terapia...</h1>
+        <p class="text-brand-mist/70 text-sm sm:text-base mb-8 leading-relaxed font-medium">
+            Nosso sistema tirou um tempinho para cuidar de si mesmo. Estamos aplicando melhorias e já voltamos!
+        </p>
+
+        <!-- Barra de Progresso Infinita -->
+        <div class="w-full bg-brand-white/5 rounded-full h-1.5 mb-8 overflow-hidden relative">
+            <div class="absolute top-0 left-0 h-full bg-brand-blue rounded-full animate-slide-bar shadow-[0_0_10px_#0030CF]"></div>
+        </div>
+
+        <!-- Botão para tentar voltar -->
+        <button onclick="window.location.reload()" class="w-full bg-brand-white/10 hover:bg-brand-white/20 text-brand-white font-extrabold py-3.5 px-4 rounded-full transition-all border border-brand-white/10 text-sm sm:text-base flex items-center justify-center gap-2">
+            <i class="ph-bold ph-arrows-clockwise"></i> Tentar Novamente
+        </button>
+
+    </div>
+
+</body>
+</html>
