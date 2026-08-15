@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal da Turma - Login</title>
+    <title>Portal de Psicologia - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,21 +20,22 @@
         }
     </script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Importando os ícones para a tela de login -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
 
-    <!-- Luzes de Fundo (Signal Blue e Cloud Mist) -->
     <div class="absolute top-[-10%] left-[-10%] w-[250px] h-[250px] bg-brand-blue/30 rounded-full blur-[80px] pointer-events-none"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-[250px] h-[250px] bg-brand-mist/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-    <!-- Card Principal -->
     <div class="bg-brand-white/[0.03] backdrop-blur-2xl border border-brand-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10">
         
         <div class="text-center mb-8">
-            <div class="bg-brand-blue text-brand-white w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_20px_rgba(0,48,207,0.4)]">
-                🎓
+            <!-- Ícone de Cérebro (Psicologia) -->
+            <div class="bg-brand-blue text-brand-white w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl shadow-[0_0_20px_rgba(0,48,207,0.4)]">
+                <i class="ph-fill ph-brain"></i>
             </div>
-            <h1 id="page-title" class="text-2xl sm:text-3xl font-extrabold text-brand-white tracking-tight">Portal Turma</h1>
+            <h1 id="page-title" class="text-2xl sm:text-3xl font-extrabold text-brand-white tracking-tight">Portal Psi</h1>
             <p id="page-subtitle" class="text-brand-mist/70 text-xs sm:text-sm mt-1 font-medium">Digite sua matrícula para entrar</p>
         </div>
 

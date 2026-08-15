@@ -228,16 +228,37 @@ async function carregarContatos() {
 }
 
 async function carregarNomeAluno() {
-    const matricula = localStorage.getItem('alunoLogado'); const displayNome = document.getElementById('nome-aluno-display');
+    const matricula = localStorage.getItem('alunoLogado'); 
+    const displayNome = document.getElementById('nome-aluno-display');
+    
     if (!matricula) return;
+    
     try {
         const q = query(collection(db, "alunos"), where("matricula", "==", matricula));
         const snap = await getDocs(q);
+        
         if (!snap.empty) {
-            const nomeCompleto = snap.docs[0].data().nome.split(' ');
-            displayNome.textContent = nomeCompleto[0];
-        } else { displayNome.textContent = "Estudante"; }
-    } catch (error) { displayNome.textContent = "Estudante"; }
+            // Pega o nome completo, remove espaços extras e divide em um array
+            const partesNome = snap.docs[0].data().nome.trim().split(' ');
+            
+            if (partesNome.length > 1) {
+                // Se tiver mais de um nome, mostra o Primeiro e o Último (Sobrenome)
+                const primeiroNome = partesNome[0];
+                const ultimoNome = partesNome[partesNome.length - 1];
+                displayNome.textContent = `${primeiroNome} ${ultimoNome}`;
+            } else {
+                // Se o administrador cadastrou só um nome, mostra só ele
+                displayNome.textContent = partesNome[0];
+            }
+        } else { 
+            // Texto caso não encontre
+            displayNome.textContent = "Futuro(a) Psi"; 
+        }
+    } catch (error) { 
+        displayNome.textContent = "Futuro(a) Psi"; 
+    }
 }
+
+carregarNomeAluno(); carregarAvisos(); carregarEventos(); carregarMateriais(); carregarHorarios(); carregarContatos();
 
 carregarNomeAluno(); carregarAvisos(); carregarEventos(); carregarMateriais(); carregarHorarios(); carregarContatos();
