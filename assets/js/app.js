@@ -3,7 +3,6 @@ import { db, collection, getDocs, query, where } from './firebase.js';
 if (!localStorage.getItem('alunoLogado')) window.location.href = "index.html";
 document.getElementById('btn-sair').addEventListener('click', () => { localStorage.removeItem('alunoLogado'); window.location.href = "index.html"; });
 
-// NAVEGAÇÃO
 const navBtns = document.querySelectorAll('.nav-btn');
 const telas = document.querySelectorAll('.tela-app');
 navBtns.forEach(btn => {
@@ -16,7 +15,6 @@ navBtns.forEach(btn => {
     });
 });
 
-// AVISOS
 async function carregarAvisos() {
     const container = document.getElementById('container-avisos');
     try {
@@ -50,7 +48,6 @@ async function carregarAvisos() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
-// CALENDÁRIO
 let eventosGlobais = []; let dataCalendario = new Date(); let diaSelecionado = null;
 async function carregarEventos() {
     try {
@@ -135,7 +132,6 @@ function renderizarEventosDoMes() {
 document.getElementById('btn-mes-anterior').addEventListener('click', () => { diaSelecionado = null; dataCalendario.setMonth(dataCalendario.getMonth() - 1); renderizarEventosDoMes(); });
 document.getElementById('btn-mes-proximo').addEventListener('click', () => { diaSelecionado = null; dataCalendario.setMonth(dataCalendario.getMonth() + 1); renderizarEventosDoMes(); });
 
-// MATERIAIS
 async function carregarMateriais() {
     const container = document.getElementById('lista-materiais');
     try {
@@ -163,7 +159,6 @@ async function carregarMateriais() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
-// HORÁRIOS E CONTATOS
 async function carregarHorarios() {
     const container = document.getElementById('lista-horarios');
     try {
@@ -187,7 +182,8 @@ async function carregarHorarios() {
             const card = document.createElement('div');
             card.className = "bg-brand-white/[0.03] backdrop-blur-md p-3 rounded-xl border border-brand-white/5 flex gap-3 items-center";
             card.innerHTML = `
-                <div class="bg-brand-blue/20 text-brand-blue font-bold px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap border border-brand-blue/20">
+                <!-- CORRIGIDO: Fundo Azul sólido, Texto Branco para máximo contraste -->
+                <div class="bg-brand-blue text-brand-white font-extrabold px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap shadow-[0_0_10px_rgba(0,48,207,0.4)]">
                     <i class="ph-bold ph-clock mr-1"></i> ${aula.hora}
                 </div>
                 <div>

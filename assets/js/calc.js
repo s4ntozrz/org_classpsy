@@ -18,13 +18,13 @@ function processarNotas(v1, vt, v2, r1, vs) {
     
     let status = ""; let corStatus = ""; let mf = ms; let precisaVS = null;
 
-    if (ms >= 7.0) { status = "Aprovado"; corStatus = "text-brand-blue"; } 
+    if (ms >= 7.0) { status = "Aprovado"; corStatus = "text-brand-white bg-brand-blue px-1.5 py-0.5 rounded"; } 
     else if (ms < 4.0) { status = "Reprovado"; corStatus = "text-red-500"; } 
     else {
         if (vs === null || isNaN(vs)) { status = "Em Final (VS)"; corStatus = "text-yellow-400"; precisaVS = (10 - ms).toFixed(1); if (precisaVS < 5.0) precisaVS = 5.0; } 
         else {
             mf = parseFloat(((ms + vs) / 2).toFixed(1));
-            if (mf >= 5.0 && vs >= 5.0) { status = "Aprovado na VS"; corStatus = "text-brand-blue"; } 
+            if (mf >= 5.0 && vs >= 5.0) { status = "Aprovado na VS"; corStatus = "text-brand-white bg-brand-blue px-1.5 py-0.5 rounded"; } 
             else { status = "Reprovado na VS"; corStatus = "text-red-500"; }
         }
     }
@@ -56,7 +56,7 @@ function atualizarLista() {
                 ${linhaExtra}
             </div>
             <div class="flex gap-1 shrink-0 ml-2">
-                <button onclick="editarMateria(${index})" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shadow-sm"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                <button onclick="editarMateria(${index})" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shadow-[0_0_10px_rgba(0,48,207,0.3)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                 <button onclick="deletarMateria(${index})" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shadow-sm"><i class="ph-bold ph-trash text-sm"></i></button>
             </div>
         `;

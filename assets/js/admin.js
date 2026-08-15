@@ -5,7 +5,6 @@ import { addDoc, updateDoc, serverTimestamp, getDocs, doc, deleteDoc } from "htt
 onAuthStateChanged(auth, (user) => { if (!user) { localStorage.removeItem('adminLogado'); window.location.href = "index.html"; } });
 document.getElementById('btn-logout').addEventListener('click', async () => { await signOut(auth); localStorage.removeItem('adminLogado'); window.location.href = "index.html"; });
 
-// NAVEGAÇÃO ABAS
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 tabBtns.forEach(btn => {
@@ -24,7 +23,6 @@ function toggleEditMode(formId, submitBtnId, cancelBtnId, isEdit, defaultText = 
     else { submitBtn.textContent = defaultText; cancelBtn.classList.add('hidden'); document.getElementById(formId).reset(); }
 }
 
-// ================= ALUNOS =================
 async function carregarAlunos() {
     const lista = document.getElementById('lista-alunos');
     try {
@@ -38,10 +36,10 @@ async function carregarAlunos() {
             card.innerHTML = `
                 <div>
                     <h4 class="font-bold text-brand-white text-sm">${item.nome || "Sem Nome"}</h4>
-                    <p class="text-[11px] text-brand-mist/70">Matrícula: <span class="text-brand-blue font-semibold">${item.matricula}</span></p>
+                    <p class="text-[11px] text-brand-mist/70">Matrícula: <span class="text-brand-mist font-bold bg-brand-white/10 px-1.5 rounded">${item.matricula}</span></p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarAluno('${item.id}', '${item.nome}', '${item.matricula}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarAluno('${item.id}', '${item.nome}', '${item.matricula}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarAluno('${item.id}', '${item.nome}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -61,7 +59,6 @@ document.getElementById('form-aluno').addEventListener('submit', async (e) => {
     } catch (e) { alert("Erro."); }
 });
 
-// ================= AVISOS =================
 async function carregarAvisos() {
     const lista = document.getElementById('lista-admin-avisos');
     try {
@@ -78,7 +75,7 @@ async function carregarAvisos() {
                     <p class="text-[11px] text-brand-mist/70">Tipo: <span class="uppercase font-bold">${item.urgencia}</span></p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarAviso('${item.id}', '${item.titulo.replace(/'/g, "\\'")}', '${item.texto.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', '${item.urgencia}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarAviso('${item.id}', '${item.titulo.replace(/'/g, "\\'")}', '${item.texto.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', '${item.urgencia}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarAviso('${item.id}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -98,7 +95,6 @@ document.getElementById('form-aviso').addEventListener('submit', async (e) => {
     } catch (e) { alert("Erro."); }
 });
 
-// ================= EVENTOS =================
 async function carregarEventos() {
     const lista = document.getElementById('lista-admin-eventos');
     try {
@@ -115,7 +111,7 @@ async function carregarEventos() {
                     <p class="text-[11px] text-brand-mist/70">${item.data} - <span class="uppercase font-bold">${item.tipo}</span></p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarEvento('${item.id}', '${item.titulo.replace(/'/g, "\\'")}', '${item.data}', '${item.tipo}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarEvento('${item.id}', '${item.titulo.replace(/'/g, "\\'")}', '${item.data}', '${item.tipo}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarEvento('${item.id}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -151,7 +147,6 @@ document.getElementById('btn-importar-csv').addEventListener('click', () => {
     reader.readAsText(fileInput.files[0]);
 });
 
-// ================= MATERIAIS =================
 async function carregarMateriais() {
     const lista = document.getElementById('lista-admin-materiais');
     try {
@@ -165,10 +160,10 @@ async function carregarMateriais() {
             card.innerHTML = `
                 <div class="flex-1 pr-2">
                     <h4 class="font-bold text-brand-white text-sm truncate">${item.titulo}</h4>
-                    <p class="text-[11px] text-brand-mist/70">Disciplina: <span class="text-brand-blue font-bold">${item.materia}</span></p>
+                    <p class="text-[11px] text-brand-mist/70">Disciplina: <span class="text-brand-mist font-bold">${item.materia}</span></p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarMaterial('${item.id}', '${item.materia.replace(/'/g, "\\'")}', '${item.titulo.replace(/'/g, "\\'")}', '${item.link}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarMaterial('${item.id}', '${item.materia.replace(/'/g, "\\'")}', '${item.titulo.replace(/'/g, "\\'")}', '${item.link}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarMaterial('${item.id}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -191,7 +186,6 @@ if(formMaterial) {
     });
 }
 
-// ================= HORÁRIOS =================
 async function carregarHorarios() {
     const lista = document.getElementById('lista-admin-horarios');
     try {
@@ -206,10 +200,10 @@ async function carregarHorarios() {
             card.innerHTML = `
                 <div>
                     <h4 class="font-bold text-brand-white text-sm">${aula.materia} <span class="text-[10px] text-brand-mist/70 font-normal ml-1">(${nomeDoDia})</span></h4>
-                    <p class="text-[11px] text-brand-mist/70 mt-0.5">Hora: <span class="text-brand-blue font-bold">${aula.hora}</span> | Prof: ${aula.prof}</p>
+                    <p class="text-[11px] text-brand-mist/70 mt-0.5">Hora: <span class="text-brand-white font-extrabold bg-brand-blue/40 px-1.5 rounded">${aula.hora}</span> | Prof: ${aula.prof}</p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarHorario('${aula.id}', '${aula.dia}', '${aula.materia}', '${aula.hora}', '${aula.prof}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarHorario('${aula.id}', '${aula.dia}', '${aula.materia}', '${aula.hora}', '${aula.prof}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarHorario('${aula.id}', '${aula.materia}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -232,7 +226,6 @@ if(formHorario) {
     });
 }
 
-// ================= CONTATOS =================
 async function carregarContatos() {
     const lista = document.getElementById('lista-admin-contatos');
     try {
@@ -246,10 +239,10 @@ async function carregarContatos() {
             card.innerHTML = `
                 <div>
                     <h4 class="font-bold text-brand-white text-sm">${contato.nome}</h4>
-                    <p class="text-[11px] text-brand-mist/70 mt-0.5">Cargo: <span class="text-brand-blue font-bold">${contato.cargo}</span></p>
+                    <p class="text-[11px] text-brand-mist/70 mt-0.5">Cargo: <span class="text-brand-mist font-bold">${contato.cargo}</span></p>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.editarContato('${contato.id}', '${contato.nome}', '${contato.cargo}', '${contato.numero}')" class="w-8 h-8 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center hover:bg-brand-blue/30 transition shrink-0"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
+                    <button onclick="window.editarContato('${contato.id}', '${contato.nome}', '${contato.cargo}', '${contato.numero}')" class="w-8 h-8 bg-brand-blue text-brand-white rounded-full flex items-center justify-center hover:bg-brand-blue/80 transition shrink-0 shadow-[0_0_10px_rgba(0,48,207,0.4)]"><i class="ph-bold ph-pencil-simple text-sm"></i></button>
                     <button onclick="window.deletarContato('${contato.id}', '${contato.nome}')" class="w-8 h-8 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center hover:bg-red-500/30 transition shrink-0"><i class="ph-bold ph-trash text-sm"></i></button>
                 </div>
             `;
@@ -272,5 +265,4 @@ if(formContato) {
     });
 }
 
-// INICIALIZAR LISTAS
 carregarAlunos(); carregarAvisos(); carregarEventos(); carregarMateriais(); carregarHorarios(); carregarContatos();
