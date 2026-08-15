@@ -3,6 +3,7 @@ import { db, collection, getDocs, query, where } from './firebase.js';
 if (!localStorage.getItem('alunoLogado')) window.location.href = "index.html";
 document.getElementById('btn-sair').addEventListener('click', () => { localStorage.removeItem('alunoLogado'); window.location.href = "index.html"; });
 
+// NAVEGAÇÃO
 const navBtns = document.querySelectorAll('.nav-btn');
 const telas = document.querySelectorAll('.tela-app');
 navBtns.forEach(btn => {
@@ -15,6 +16,7 @@ navBtns.forEach(btn => {
     });
 });
 
+// ================= AVISOS COM EXPANSÃO =================
 async function carregarAvisos() {
     const container = document.getElementById('container-avisos');
     try {
@@ -30,8 +32,22 @@ async function carregarAvisos() {
             if (aviso.urgencia === 'urgente') corBolinha = 'bg-red-500 shadow-[0_0_10px_#ef4444]';
             let data = aviso.dataPublicacao ? aviso.dataPublicacao.toDate().toLocaleDateString('pt-BR') : '';
 
+            // Lógica para verificar se o texto é muito longo
+            const isLongo = aviso.texto.length > 150 || aviso.texto.split('\n').length > 4;
+            let textoClass = "aviso-texto text-brand-mist/90 text-sm leading-relaxed whitespace-pre-line text-justify transition-all duration-500";
+            let toggleHtml = "";
+
+            if (isLongo) {
+                textoClass += " line-clamp-4"; // Corta na 4ª linha
+                toggleHtml = `
+                    <div class="mt-3 text-center border-t border-brand-white/5 pt-2">
+                        <span class="aviso-toggle-text text-[10px] uppercase tracking-widest text-brand-blue font-extrabold">Toque para expandir</span>
+                    </div>
+                `;
+            }
+
             const card = document.createElement('div');
-            card.className = `bg-brand-white/[0.04] backdrop-blur-xl p-4 rounded-2xl border border-brand-white/10 shadow-lg`;
+            card.className = `bg-brand-white/[0.04] backdrop-blur-xl p-4 rounded-2xl border border-brand-white/10 shadow-lg transition-all duration-300 ${isLongo ? 'cursor-pointer hover:bg-brand-white/[0.06]' : ''}`;
             card.innerHTML = `
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
@@ -41,13 +57,32 @@ async function carregarAvisos() {
                     <span class="text-xs text-brand-mist/50">${data}</span>
                 </div>
                 <h3 class="font-extrabold text-brand-white text-lg mb-2">${aviso.titulo}</h3>
-                <p class="text-brand-mist/90 text-sm leading-relaxed whitespace-pre-line">${aviso.texto}</p>
+                <p class="${textoClass}">${aviso.texto}</p>
+                ${toggleHtml}
             `;
+
+            // Se for longo, adiciona a ação de clique para expandir/recolher
+            if (isLongo) {
+                card.addEventListener('click', () => {
+                    const p = card.querySelector('.aviso-texto');
+                    const span = card.querySelector('.aviso-toggle-text');
+                    
+                    if (p.classList.contains('line-clamp-4')) {
+                        p.classList.remove('line-clamp-4');
+                        span.textContent = "Toque para recolher";
+                    } else {
+                        p.classList.add('line-clamp-4');
+                        span.textContent = "Toque para expandir";
+                    }
+                });
+            }
+
             container.appendChild(card);
         });
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
+// ================= CALENDÁRIO =================
 let eventosGlobais = []; let dataCalendario = new Date(); let diaSelecionado = null;
 async function carregarEventos() {
     try {
@@ -132,6 +167,7 @@ function renderizarEventosDoMes() {
 document.getElementById('btn-mes-anterior').addEventListener('click', () => { diaSelecionado = null; dataCalendario.setMonth(dataCalendario.getMonth() - 1); renderizarEventosDoMes(); });
 document.getElementById('btn-mes-proximo').addEventListener('click', () => { diaSelecionado = null; dataCalendario.setMonth(dataCalendario.getMonth() + 1); renderizarEventosDoMes(); });
 
+// ================= MATERIAIS =================
 async function carregarMateriais() {
     const container = document.getElementById('lista-materiais');
     try {
@@ -159,6 +195,7 @@ async function carregarMateriais() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
+// ================= HORÁRIOS =================
 async function carregarHorarios() {
     const container = document.getElementById('lista-horarios');
     try {
@@ -182,7 +219,6 @@ async function carregarHorarios() {
             const card = document.createElement('div');
             card.className = "bg-brand-white/[0.03] backdrop-blur-md p-3 rounded-xl border border-brand-white/5 flex gap-3 items-center";
             card.innerHTML = `
-                <!-- CORRIGIDO: Fundo Azul sólido, Texto Branco para máximo contraste -->
                 <div class="bg-brand-blue text-brand-white font-extrabold px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap shadow-[0_0_10px_rgba(0,48,207,0.4)]">
                     <i class="ph-bold ph-clock mr-1"></i> ${aula.hora}
                 </div>
@@ -196,6 +232,7 @@ async function carregarHorarios() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
+// ================= CONTATOS =================
 async function carregarContatos() {
     const container = document.getElementById('lista-contatos');
     try {
@@ -227,38 +264,24 @@ async function carregarContatos() {
     } catch (e) { container.innerHTML = '<p class="text-red-500">Erro.</p>'; }
 }
 
+// ================= NOME DO ALUNO =================
 async function carregarNomeAluno() {
-    const matricula = localStorage.getItem('alunoLogado'); 
-    const displayNome = document.getElementById('nome-aluno-display');
-    
+    const matricula = localStorage.getItem('alunoLogado'); const displayNome = document.getElementById('nome-aluno-display');
     if (!matricula) return;
-    
     try {
         const q = query(collection(db, "alunos"), where("matricula", "==", matricula));
         const snap = await getDocs(q);
-        
         if (!snap.empty) {
-            // Pega o nome completo, remove espaços extras e divide em um array
             const partesNome = snap.docs[0].data().nome.trim().split(' ');
-            
             if (partesNome.length > 1) {
-                // Se tiver mais de um nome, mostra o Primeiro e o Último (Sobrenome)
                 const primeiroNome = partesNome[0];
                 const ultimoNome = partesNome[partesNome.length - 1];
                 displayNome.textContent = `${primeiroNome} ${ultimoNome}`;
             } else {
-                // Se o administrador cadastrou só um nome, mostra só ele
                 displayNome.textContent = partesNome[0];
             }
-        } else { 
-            // Texto caso não encontre
-            displayNome.textContent = "Futuro(a) Psi"; 
-        }
-    } catch (error) { 
-        displayNome.textContent = "Futuro(a) Psi"; 
-    }
+        } else { displayNome.textContent = "Futuro(a) Psi"; }
+    } catch (error) { displayNome.textContent = "Futuro(a) Psi"; }
 }
-
-carregarNomeAluno(); carregarAvisos(); carregarEventos(); carregarMateriais(); carregarHorarios(); carregarContatos();
 
 carregarNomeAluno(); carregarAvisos(); carregarEventos(); carregarMateriais(); carregarHorarios(); carregarContatos();
