@@ -109,7 +109,13 @@
             </div>
             
             <div class="bg-brand-white/[0.03] backdrop-blur-xl p-5 rounded-2xl border border-brand-white/10">
-                <h2 class="text-lg font-extrabold mb-3">Eventos Salvos</h2>
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-extrabold">Eventos Salvos</h2>
+                    <!-- Novo botão de Limpar Tudo -->
+                    <button id="btn-limpar-eventos" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 transition uppercase tracking-wider">
+                        <i class="ph-bold ph-trash text-sm"></i> Apagar Tudo
+                    </button>
+                </div>
                 <div id="lista-admin-eventos" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
             </div>
 
